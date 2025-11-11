@@ -1,0 +1,52 @@
+d = 4
+def crearmatrices(texto):
+    bloques = []
+    texto_ascii = []
+    for c in texto:
+        texto_ascii.append(ord(c))
+    for i in range(0, len(texto_ascii), d * d):
+        bloque = []
+
+        for j in range(i, i + d * d):
+            if j < len(texto_ascii):
+                bloque.append(texto_ascii[j])
+            else:
+                bloque.append(0)  
+        matriz = []
+        for fila_inicio in range(0, d * d, d):
+            fila = []
+            for col in range(d):
+                fila.append(bloque[fila_inicio + col])
+            matriz.append(fila)
+
+        bloques.append(matriz)
+
+    return bloques
+
+
+def xormatrices(mensaje_matrices, clave_matrices):
+    resultado = []
+    for i in range(len(mensaje_matrices)):
+        m = mensaje_matrices[i]
+        k = clave_matrices[i % len(clave_matrices)] 
+        bloque_xor = []
+        for fila in range(d):
+            fila_xor = []
+            for col in range(d):
+                valor = m[fila][col] ^ k[fila][col]
+                fila_xor.append(valor)
+            bloque_xor.append(fila_xor)
+
+        resultado.append(bloque_xor)
+
+    return resultado
+
+mensaje = "paco s sea sd"
+clave = "taco si. "
+
+matricesmensaje = crearmatrices(mensaje)
+matricesclave = crearmatrices(clave)
+
+resultado = xormatrices(matricesmensaje, matricesclave)
+
+print(resultado)
